@@ -1,8 +1,13 @@
 import matplotlib as mpl
 import numpy as np
-from matplotlib.backends.backend_pgf import (
-    common_texification as mpl_common_texification,
-)
+
+try:
+    from matplotlib.backends.backend_pgf import (
+        _tex_escape as mpl_common_texification)
+except ImportError:
+    # NOTE: backwards compatibility for matplotlib<3.8.0
+    from matplotlib.backends.backend_pgf import (
+        common_texification as mpl_common_texification)
 
 from . import _color
 
