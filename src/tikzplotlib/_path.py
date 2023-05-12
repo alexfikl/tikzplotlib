@@ -469,8 +469,12 @@ def mpl_linestyle2pgfplots_linestyle(data, line_style, line=None):
         default_dashOffset, default_dashSeq = mpl.lines._get_dash_pattern(line_style)
 
         # get dash format of line under test
-        dashSeq = line._us_dashSeq
-        dashOffset = line._us_dashOffset
+        try:
+            dashSeq, dashOffset = line._us_pattern[:2]
+        except AttributeError:
+            # NOTE: backwards compatibility with matplotlib<3.7.0
+            dashSeq = line._us_dashSeq
+            dashOffset = line._us_dashOffset
 
         lst = list()
         if dashSeq != default_dashSeq:
